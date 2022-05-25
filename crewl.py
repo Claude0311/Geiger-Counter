@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import datetime
+from datetime import datetime
 import csv
 
 response = requests.get(
@@ -9,11 +9,13 @@ soup = BeautifulSoup(response.text, "html.parser")
 result = soup.find_all("tr")
 
 # print(soup.prettify())
-
-path = str(datetime.date.today()) + '_LOG.csv'
+target = str(datetime.now())
+for s in [' ','.',':']:
+    target = target.replace(s,'')
+path = target + '_LOG.csv'
 print(path)
 
-with open(path,'w+', newline="") as f:
+with open(path,'w', newline="") as f:
     writer = csv.writer(f, delimiter=',')
     writer.writerow(['time', 'humidity', 'pressure'])
     for r in result:
