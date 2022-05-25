@@ -11,7 +11,7 @@ void setup() {
   pinMode(2,INPUT);
   attachInterrupt(digitalPinToInterrupt(2),trigger,RISING);
   t.every(60000*report_min,report_event);
-  Serial.println("Hello Muon World!");
+//  Serial.println("Hello Muon World!");
 }
 
 void loop() {
