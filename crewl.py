@@ -7,7 +7,7 @@ response = requests.get(
     "https://www.cwb.gov.tw/V8/C/W/Observe/MOD/24hr/46692.html?T=297")
 soup = BeautifulSoup(response.text, "html.parser")
 result = soup.find_all("tr")
-
+print(result[0].prettify())
 # print(soup.prettify())
 target = str(datetime.now())
 for s in [' ','.',':']:
@@ -17,10 +17,16 @@ print(path)
 
 with open(path,'w', newline="") as f:
     writer = csv.writer(f, delimiter=',')
-    writer.writerow(['time', 'humidity', 'pressure'])
-    for r in result:
-        hum = float(r.find("td",headers="hum").text)
-        pre = float(r.find("td",headers="pre").text)
+    writer.writerow(['time', 'humidity', 'pressure', 'temperature'])
+    for r in reversed(result):
+        hum = (r.find("td",headers="hum").text)
+        pre = (r.find("td",headers="pre").text)
         ti = r.find("th", headers = "time").text
+        tem = ''
+        try:
+            tem = r.find("td",headers = "temp").find("span").text
+        except:
+            tem = ''
+        # print(tem)
         # print(result.prettify())
-        writer.writerow([ti, hum, pre])
+        writer.writerow([ti, hum, pre, tem])
